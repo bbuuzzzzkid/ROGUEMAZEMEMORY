@@ -269,19 +269,6 @@ function generateMaze(size){
     grid[0][0] = 0;
     grid[size-1][size-1] = 0;
 
-    // Guarantee a simple path
-    let px = 0;
-    let py = 0;
-
-    while(px < size-1){
-        grid[py][px] = 0;
-        px++;
-    }
-
-    while(py < size-1){
-        grid[py][px] = 0;
-        py++;
-    }
 }
 function startLevel(){
     queue = [];
