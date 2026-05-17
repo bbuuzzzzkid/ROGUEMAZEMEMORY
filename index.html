@@ -250,18 +250,14 @@ function generateMaze(size){
         }
     }
 }
-for(let i = 1; i < gridSize-1; i++){
+let blockTop = Math.floor(Math.random() * (gridSize - 2)) + 1;
+let blockRight = Math.floor(Math.random() * (gridSize - 2)) + 1;
 
-    // top edge
-    if(Math.random() < 0.7){
-        grid[0][i] = 1;
-    }
+// guaranteed blocker on top edge
+grid[0][blockTop] = 1;
 
-    // right edge
-    if(Math.random() < 0.7){
-        grid[i][gridSize-1] = 1;
-    }
-}
+// guaranteed blocker on right edge
+grid[blockRight][gridSize - 1] = 1;
         }
     }
 
