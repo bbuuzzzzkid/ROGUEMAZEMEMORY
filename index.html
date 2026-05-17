@@ -289,11 +289,6 @@ function startLevel(){
     modeText.textContent = "INPUT PHASE";
     messageText.textContent = "";
 
-    do {
-    generateMaze();
-} while (!pathExists(grid, 0, 0, gridSize-1, gridSize-1));
-console.log("VALID MAZE GENERATED");
-
     // top row
 grid[0][Math.floor(Math.random() * gridSize)] = 1;
 
@@ -308,6 +303,9 @@ grid[Math.floor(Math.random() * gridSize)][gridSize - 1] = 1;
     updateQueueDisplay();
     startTimer();
     draw();
+do {
+    generateMaze();
+} while (!pathExists(grid, 0, 0, gridSize-1, gridSize-1));
 }
 
 function startTimer(){
