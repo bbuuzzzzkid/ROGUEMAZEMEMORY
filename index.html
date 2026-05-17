@@ -152,7 +152,7 @@
         gap:10px;
         flex-wrap:wrap;
     <div class:"panel">
-    <div class="label">TIME ENERGY</div>
+    <div class="label">TIME REMAINING</div>
     <div id="timerBarContainer">
         <div id="timerBar"></div>
     </div>
@@ -227,34 +227,6 @@ const symbols = {
 
     // EXTRA RANDOM WALL PASS (cleaned version of second loop)
     
-    for(let y = 0; y < gridSize; y++){
-        for(let x = 0; x < gridSize; x++){
-
-            if((x === 0 && y === 0) ||
-               (x === gridSize-1 && y === gridSize-1)){
-                continue;
-            }
-
-            if(Math.random() < 0.3){
-                grid[y][x] = 1;
-            }
-        }
-    }
-
-    let blockTop = Math.floor(Math.random() * (gridSize - 2)) + 1;
-    let blockRight = Math.floor(Math.random() * (gridSize - 2)) + 1;
-
-    grid[0][blockTop] = 1;
-    grid[blockRight][gridSize - 1] = 1;
-
-    // Ensure start and exit clear
-    grid[0][0] = 0;
-    grid[0][1] = 0;
-    grid[1][0] = 0;
-
-    grid[gridSize - 1][gridSize - 1] = 0;
-    grid[gridSize - 2][gridSize - 1] = 0;
-    grid[gridSize - 1][gridSize - 2] = 0;
 
 
 function startLevel(){
