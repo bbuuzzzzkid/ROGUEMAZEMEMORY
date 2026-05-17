@@ -494,14 +494,14 @@ function pulseBorder() {
 
     const interval = setInterval(() => {
         canvas.style.borderColor = colors[i];
-        canvas.style.boxShadow = `0 0 20px ${colors[i]}`;
+        canvas.style.boxShadow = `0 0 100px ${colors[i]}`;
 
         i++;
 
         if (i >= colors.length) {
             clearInterval(interval);
             canvas.style.borderColor = "#00ff88";
-            canvas.style.boxShadow = "0 0 20px rgba(0,255,136,0.4)";
+            canvas.style.boxShadow = "0 0 100px rgba(0,255,136,0.4)";
         }
     }, 120);
 }
