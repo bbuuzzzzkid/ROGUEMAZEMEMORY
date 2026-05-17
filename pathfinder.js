@@ -1,13 +1,17 @@
+function safeGet(y, x) {
+    return grid[y] && grid[y][x];
+}
+
 function generateMaze() {
 
     grid = [];
 
-    for (let y = 0; y < gridSize; y++) {
-        grid[y] = [];
-        for (let x = 0; x < gridSize; x++) {
-            grid[y][x] = 1;
-        }
+for (let y = 0; y < gridSize; y++) {
+    grid[y] = [];
+    for (let x = 0; x < gridSize; x++) {
+        grid[y][x] = 1; // ALL WALLS FIRST
     }
+}
 
     grid[0][0] = 0;
 
@@ -38,7 +42,7 @@ function generateMaze() {
             if (
                 nx >= 0 && ny >= 0 &&
                 nx < gridSize && ny < gridSize &&
-                grid[ny][nx] === 0
+                safeGet(ny, nx) === 0
             ) {
                 paths++;
             }
@@ -55,7 +59,7 @@ function generateMaze() {
                 if (
                     nx >= 0 && ny >= 0 &&
                     nx < gridSize && ny < gridSize &&
-                    grid[ny][nx] === 1
+                    safeGet(ny, nx) === 1
                 ) {
                     walls.push([nx, ny]);
                 }
@@ -66,7 +70,7 @@ function generateMaze() {
     // FINAL EXIT FIX (important)
     grid[gridSize - 1][gridSize - 1] = 0;
 
-    if (gridSize > 1) {
-        grid[gridSize - 2][gridSize - 1] = 0;
-    }
+if (gridSize > 1) {
+    grid[gridSize - 2][gridSize - 1] = 0;
 }
+    }
