@@ -1,15 +1,17 @@
-function pathExists(grid, startX, startY, endX, endY) {
-    const rows = grid.length;
-    const cols = grid[0].length;
+function generateMaze() {
 
-    const visited = Array.from({ length: rows }, () =>
-        Array(cols).fill(false)
-    );
+    grid = [];
 
-    const queue = [];
-    queue.push([startX, startY]);
-    visited[startY][startX] = true;
+    for (let y = 0; y < gridSize; y++) {
+        grid[y] = [];
+        for (let x = 0; x < gridSize; x++) {
+            grid[y][x] = 1;
+        }
+    }
 
+    grid[0][0] = 0;
+
+    let walls = [];
     const dirs = [
         [0, 1],
         [1, 0],
@@ -17,28 +19,54 @@ function pathExists(grid, startX, startY, endX, endY) {
         [-1, 0]
     ];
 
-    while (queue.length > 0) {
-        const [x, y] = queue.shift();
+    if (gridSize > 1) {
+        walls.push([1, 0]);
+        walls.push([0, 1]);
+    }
 
-        if (x === endX && y === endY) {
-            return true;
-        }
+    while (walls.length > 0) {
+
+        let randIndex = Math.floor(Math.random() * walls.length);
+        let [x, y] = walls.splice(randIndex, 1)[0];
+
+        let paths = 0;
 
         for (let [dx, dy] of dirs) {
-            const nx = x + dx;
-            const ny = y + dy;
+            let nx = x + dx;
+            let ny = y + dy;
 
             if (
                 nx >= 0 && ny >= 0 &&
-                nx < cols && ny < rows &&
-                !visited[ny][nx] &&
+                nx < gridSize && ny < gridSize &&
                 grid[ny][nx] === 0
             ) {
-                visited[ny][nx] = true;
-                queue.push([nx, ny]);
+                paths++;
+            }
+        }
+
+        if (paths === 1) {
+
+            grid[y][x] = 0;
+
+            for (let [dx, dy] of dirs) {
+                let nx = x + dx;
+                let ny = y + dy;
+
+                if (
+                    nx >= 0 && ny >= 0 &&
+                    nx < gridSize && ny < gridSize &&
+                    grid[ny][nx] === 1
+                ) {
+                    walls.push([nx, ny]);
+                }
             }
         }
     }
 
-    return false;
+    // FINAL EXIT FIX (important)
+    grid[gridSize - 1][gridSize - 1] = 0;
+
+    if (gridSize > 1) {
+        grid[gridSize - 2][gridSize - 1] = 0;
+    }
 }

@@ -224,24 +224,6 @@ const symbols = {
     ArrowRight: "▶"
 };
 
-function generateMaze(){
-    grid = [];
-
-    for(let y = 0; y < gridSize; y++){
-        grid[y] = [];
-
-        for(let x = 0; x < gridSize; x++){
-
-            let wallChance = 0.22;
-
-            // Keep safe corridor edges slightly easier
-            if(x === 0 || y === 0){
-                wallChance = 0.1;
-            }
-
-            grid[y][x] = Math.random() < wallChance ? 1 : 0;
-        }
-    }
 
     // EXTRA RANDOM WALL PASS (cleaned version of second loop)
     
@@ -274,7 +256,7 @@ function generateMaze(){
     grid[gridSize - 2][gridSize - 1] = 0;
     grid[gridSize - 1][gridSize - 2] = 0;
 
-}
+
 function startLevel(){
     queue = [];
     inputPhase = true;
@@ -289,23 +271,10 @@ function startLevel(){
     modeText.textContent = "INPUT PHASE";
     messageText.textContent = "";
 
-    // top row
-grid[0][Math.floor(Math.random() * gridSize)] = 1;
-
-// bottom row
-grid[gridSize - 1][Math.floor(Math.random() * gridSize)] = 1;
-
-// left column
-grid[Math.floor(Math.random() * gridSize)][0] = 1;
-
-// right column
-grid[Math.floor(Math.random() * gridSize)][gridSize - 1] = 1;
+    generateMaze();
     updateQueueDisplay();
     startTimer();
     draw();
-do {
-    generateMaze();
-} while (!pathExists(grid, 0, 0, gridSize-1, gridSize-1));
 }
 
 function startTimer(){
