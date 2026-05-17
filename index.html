@@ -357,7 +357,7 @@ function levelComplete(){
         if(gridSize < MAX_LEVEL_SIZE){
             gridSize++;
         }
-
+    pulseBorder();
         startLevel();
     },2000);
 }
@@ -479,6 +479,33 @@ window.addEventListener("keydown",(e)=>{
             }
     }
 });
+
+function pulseBorder() {
+    let i = 0;
+
+    const colors = [
+        "#00ff88",
+        "#ffffff",
+        "#00ff88",
+        "#ffffff",
+        "#00ff88",
+        "#ffffff"
+    ];
+
+    const interval = setInterval(() => {
+        canvas.style.borderColor = colors[i];
+        canvas.style.boxShadow = `0 0 20px ${colors[i]}`;
+
+        i++;
+
+        if (i >= colors.length) {
+            clearInterval(interval);
+            canvas.style.borderColor = "#00ff88";
+            canvas.style.boxShadow = "0 0 20px rgba(0,255,136,0.4)";
+        }
+    }, 120);
+}
+
 document.getElementById("goButton").addEventListener("click", () => {
     if (inputPhase) {
         clearInterval(timerInterval);
