@@ -1,2 +1,2 @@
 # ROGUEMAZEMEMORY
-a rogue, maze, memory game, although memeory is a stretch
+a rogue, maze, memory game, although memory is a stretch... You'll see.
