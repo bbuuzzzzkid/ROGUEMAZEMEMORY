@@ -137,6 +137,21 @@
     transition: width 0.2s linear;
 }
 
+#goButton {
+    margin-top: 10px;
+    padding: 10px 20px;
+    background: #00ff88;
+    border: none;
+    color: black;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 0 10px #00ff88;
+}
+
+#goButton:hover {
+    transform: scale(1.05);
+}
+
 </style>
 </head>
 
@@ -153,7 +168,7 @@
         Arrow Keys = Queue Movement Commands<br>
         Backspace = Undo Last Command<br>
         Reach the glowing white portal without seeing movement during input.
-        Enter = Start Execution Early (if you think you have it right)<br>
+        Clicking GO button = Start Execution Early (if you think you have it right)<br>
         Good luck!
     </div>
     <div class:"panel">
@@ -161,6 +176,7 @@
     <div id="timerBarContainer">
         <div id="timerBar"></div>
     </div>
+    <button id="goButton">GO</button>
 </div>
     }
         </div>
@@ -461,6 +477,12 @@ window.addEventListener("keydown",(e)=>{
             clearInterval(timerInterval);
             beginExecution();
             }
+    }
+});
+document.getElementById("goButton").addEventListener("click", () => {
+    if (inputPhase) {
+        clearInterval(timerInterval);
+        beginExecution();
     }
 });
 
