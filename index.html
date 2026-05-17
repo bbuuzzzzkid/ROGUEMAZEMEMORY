@@ -153,6 +153,7 @@
         Arrow Keys = Queue Movement Commands<br>
         Backspace = Undo Last Command<br>
         Reach the glowing white portal without seeing movement during input.
+        Enter = Start Execution Early (if you think you have it right)<br>
         Good luck!
     </div>
     <div class:"panel">
@@ -455,6 +456,11 @@ window.addEventListener("keydown",(e)=>{
             updateQueueDisplay();
             e.preventDefault();
         }
+        if (e.key === "Enter" && inputPhase) {
+            e.preventDefault();
+            clearInterval(timerInterval);
+            beginExecution();
+            }
     }
 });
 
