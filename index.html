@@ -292,6 +292,7 @@ function startLevel(){
     do {
     generateMaze(gridSize);
 } while (!pathExists(grid, 0, 0, gridSize-1, gridSize-1));
+console.log("VALID MAZE GENERATED");
 
     // top row
 grid[0][Math.floor(Math.random() * gridSize)] = 1;
