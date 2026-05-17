@@ -225,10 +225,10 @@ const symbols = {
 };
 
 function generateMaze(size){
-    maze = [];
+    grid = [];
 
     for(let y=0;y<size;y++){
-        maze[y] = [];
+        grid[y] = [];
         for(let x=0;x<size;x++){
 
             let wallChance = 0.22;
@@ -238,7 +238,7 @@ function generateMaze(size){
                 wallChance = 0.1;
             }
 
-            maze[y][x] = Math.random() < wallChance ? 1 : 0;
+            grid[y][x] = Math.random() < wallChance ? 1 : 0;
             for(let y = 0; y < gridSize; y++){
     for(let x = 0; x < gridSize; x++){
 
@@ -264,20 +264,20 @@ grid[blockRight][gridSize - 1] = 1;
     }
 
     // Ensure start and exit clear
-    maze[0][0] = 0;
-    maze[size-1][size-1] = 0;
+    grid[0][0] = 0;
+    grid[size-1][size-1] = 0;
 
     // Guarantee a simple path
     let px = 0;
     let py = 0;
 
     while(px < size-1){
-        maze[py][px] = 0;
+        grid[py][px] = 0;
         px++;
     }
 
     while(py < size-1){
-        maze[py][px] = 0;
+        grid[py][px] = 0;
         py++;
     }
 }
@@ -365,7 +365,7 @@ function beginExecution(){
         }
 
         // Wall crash
-        if(maze[ny][nx] === 1){
+        if(grid[ny][nx] === 1){
             clearInterval(playback);
             executionPlayer.x = nx;
             executionPlayer.y = ny;
@@ -433,7 +433,7 @@ ctx.fillRect(10, 10, 50, 50);
             ctx.strokeStyle = "rgba(0,255,136,0.15)";
             ctx.strokeRect(px, py, tileSize, tileSize);
 
-            if(maze[y][x] === 1){
+            if(grid[y][x] === 1){
 
                 ctx.fillStyle = "#00aa55";
                 ctx.shadowColor = "#00ff88";
