@@ -415,14 +415,13 @@ function gameOver(msg){
 }
 
 function draw(){
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    ctx.fillStyle = "green";
-ctx.fillRect(10, 10, 50, 50);
+    if (!grid || !grid.length) return;
+    ctx.fillStyle = "#000";
+    ctx.fillRect(0,0,canvas.width,canvas.height);
     const tileSize = canvas.width / gridSize;
 
     // Background glow
-    ctx.fillStyle = "#000";
-    ctx.fillRect(0,0,canvas.width,canvas.height);
+    
 
     for(let y=0;y<gridSize;y++){
         for(let x=0;x<gridSize;x++){
