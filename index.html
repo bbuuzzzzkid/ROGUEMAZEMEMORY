@@ -113,6 +113,26 @@
         text-shadow:0 0 12px #ffffff;
     }
 
+    /* ===== TIMER BAR SYSTEM ===== */
+
+#timerBarContainer {
+    width: 100%;
+    height: 18px;
+    border: 1px solid #00ff88;
+    background: rgba(0, 0, 0, 0.6);
+    box-shadow: inset 0 0 10px rgba(0, 255, 136, 0.2);
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+#timerBar {
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(90deg, #00ff88, #ffffff);
+    box-shadow: 0 0 12px #00ff88;
+    transition: width 0.2s linear;
+}
+
 </style>
 </head>
 
@@ -125,6 +145,19 @@
         <div class="panel">
             <div class="label">LEVEL</div>
             <div id="levelText">1</div>
+            #topBar{
+        display:flex;
+        justify-content:space-between;
+        margin-bottom:12px;
+        gap:10px;
+        flex-wrap:wrap;
+    <div class:"panel">
+    <div class="label">TIME ENERGY</div>
+    <div id="timerBarContainer">
+        <div id="timerBar"></div>
+    </div>
+</div>
+    }
         </div>
 
         <div class="panel">
@@ -247,19 +280,18 @@ function startLevel(){
 }
 
 function startTimer(){
-    clearInterval(timerInterval);
-
+   timerInterval = setInterval(()=>{
+    timer--;
     timerText.textContent = timer;
 
-    timerInterval = setInterval(()=>{
-        timer--;
-        timerText.textContent = timer;
+    let percent = (timer / 30) * 100;
+    timerBar.style.width = percent + "%";
 
-        if(timer <= 0){
-            clearInterval(timerInterval);
-            beginExecution();
-        }
-    },1000);
+    if(timer <= 0){
+        clearInterval(timerInterval);
+        beginExecution();
+    }
+},1000);
 }
 
 function updateQueueDisplay(){
