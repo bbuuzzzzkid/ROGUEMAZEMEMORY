@@ -224,13 +224,13 @@ const symbols = {
     ArrowRight: "▶"
 };
 
-function generateMaze(size){
+function generateMaze(){
     grid = [];
 
-    for(let y = 0; y < size; y++){
+    for(let y = 0; y < gridSize; y++){
         grid[y] = [];
 
-        for(let x = 0; x < size; x++){
+        for(let x = 0; x < gridSize; x++){
 
             let wallChance = 0.22;
 
@@ -245,11 +245,11 @@ function generateMaze(size){
 
     // EXTRA RANDOM WALL PASS (cleaned version of second loop)
     
-    for(let y = 0; y < size; y++){
-        for(let x = 0; x < size; x++){
+    for(let y = 0; y < gridSize; y++){
+        for(let x = 0; x < gridSize; x++){
 
             if((x === 0 && y === 0) ||
-               (x === size-1 && y === size-1)){
+               (x === gridSize-1 && y === gridSize-1)){
                 continue;
             }
 
@@ -259,20 +259,20 @@ function generateMaze(size){
         }
     }
 
-    let blockTop = Math.floor(Math.random() * (size - 2)) + 1;
-    let blockRight = Math.floor(Math.random() * (size - 2)) + 1;
+    let blockTop = Math.floor(Math.random() * (gridSize - 2)) + 1;
+    let blockRight = Math.floor(Math.random() * (gridSize - 2)) + 1;
 
     grid[0][blockTop] = 1;
-    grid[blockRight][size - 1] = 1;
+    grid[blockRight][gridSize - 1] = 1;
 
     // Ensure start and exit clear
     grid[0][0] = 0;
     grid[0][1] = 0;
     grid[1][0] = 0;
 
-    grid[size - 1][size - 1] = 0;
-    grid[size - 2][size - 1] = 0;
-    grid[size - 1][size - 2] = 0;
+    grid[gridSize - 1][gridSize - 1] = 0;
+    grid[gridSize - 2][gridSize - 1] = 0;
+    grid[gridSize - 1][gridSize - 2] = 0;
 
 }
 function startLevel(){
@@ -290,7 +290,7 @@ function startLevel(){
     messageText.textContent = "";
 
     do {
-    generateMaze(gridSize);
+    generateMaze();
 } while (!pathExists(grid, 0, 0, gridSize-1, gridSize-1));
 console.log("VALID MAZE GENERATED");
 
