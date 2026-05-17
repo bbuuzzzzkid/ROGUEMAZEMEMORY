@@ -243,7 +243,7 @@ function generateMaze(size){
         }
     }
 
-    // EXTRA RANDOM WALL PASS (cleaned version of your second loop)
+    // EXTRA RANDOM WALL PASS (cleaned version of second loop)
     
     for(let y = 0; y < size; y++){
         for(let x = 0; x < size; x++){
@@ -267,7 +267,12 @@ function generateMaze(size){
 
     // Ensure start and exit clear
     grid[0][0] = 0;
-    grid[size-1][size-1] = 0;
+    grid[0][1] = 0;
+    grid[1][0] = 0;
+
+    grid[size - 1][size - 1] = 0;
+    grid[size - 2][size - 1] = 0;
+    grid[size - 1][size - 2] = 0;
 
 }
 function startLevel(){
