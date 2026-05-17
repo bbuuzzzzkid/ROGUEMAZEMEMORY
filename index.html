@@ -298,6 +298,17 @@ function startLevel(){
     messageText.textContent = "";
 
     generateMaze(gridSize);
+    // top row
+grid[0][Math.floor(Math.random() * gridSize)] = 1;
+
+// bottom row
+grid[gridSize - 1][Math.floor(Math.random() * gridSize)] = 1;
+
+// left column
+grid[Math.floor(Math.random() * gridSize)][0] = 1;
+
+// right column
+grid[Math.floor(Math.random() * gridSize)][gridSize - 1] = 1;
     updateQueueDisplay();
     startTimer();
     draw();
