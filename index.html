@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>BLIND PROGRAMMING ROGUE</title>
+
+<style>
+    *{
+        margin:0;
+        padding:0;
+        box-sizing:border-box;
+        font-family: "Courier New", monospace;
+    }
+
+    body{
+        background:#020403;
+        color:#00ff88;
+        overflow:hidden;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        height:100vh;
+    }
+
+    #gameContainer{
+        width:95vw;
+        max-width:900px;
+        border:2px solid #00ff88;
+        box-shadow:
+            0 0 10px #00ff88,
+            0 0 30px rgba(0,255,136,0.4),
+            inset 0 0 20px rgba(0,255,136,0.15);
+        background:#05110c;
+        padding:18px;
+        border-radius:12px;
+    }
+
+    h1{
+        text-align:center;
+        margin-bottom:10px;
+        color:#8cffd2;
+        text-shadow:0 0 8px #00ff88;
+        letter-spacing:3px;
+    }
+
+    #topBar{
+        display:flex;
+        justify-content:space-between;
+        margin-bottom:12px;
+        gap:10px;
+        flex-wrap:wrap;
+    }
+
+    .panel{
+        flex:1;
+        min-width:180px;
+        border:1px solid #00ff88;
+        padding:10px;
+        border-radius:8px;
+        background:rgba(0,255,136,0.05);
+        box-shadow:0 0 10px rgba(0,255,136,0.15);
+    }
+
+    .label{
+        color:#8cffd2;
+        margin-bottom:5px;
+    }
+
+    #queue{
+        min-height:40px;
+        word-wrap:break-word;
+        font-size:18px;
+        line-height:1.4;
+    }
+
+    canvas{
+        width:100%;
+        background:#000;
+        border:2px solid #00ff88;
+        image-rendering:pixelated;
+        border-radius:8px;
+        box-shadow:
+            0 0 20px rgba(0,255,136,0.4),
+            inset 0 0 20px rgba(0,255,136,0.15);
+    }
+
+    #message{
+        margin-top:14px;
+        min-height:36px;
+        text-align:center;
+        font-size:22px;
+        color:#ffffff;
+        text-shadow:0 0 10px #ffffff;
+        letter-spacing:2px;
+    }
+
+    #controls{
+        margin-top:10px;
+        text-align:center;
+        color:#7cffc4;
+        font-size:14px;
+        line-height:1.6;
+    }
+
+    .danger{
+        color:#ff3c3c;
+        text-shadow:0 0 8px red;
+    }
+
+    .success{
+        color:#ffffff;
+        text-shadow:0 0 12px #ffffff;
+    }
+
+</style>
+</head>
+
+<body>
+
+<div id="gameContainer">
+    <h1>BLIND PROGRAMMING ROGUE</h1>
+
+    <div id="topBar">
+        <div class="panel">
+            <div class="label">LEVEL</div>
+            <div id="levelText">1</div>
+        </div>
+
+        <div class="panel">
+            <div class="label">TIMER</div>
+            <div id="timerText">30</div>
+        </div>
+
+        <div class="panel">
+            <div class="label">MODE</div>
+            <div id="modeText">INPUT PHASE</div>
+        </div>
+    </div>
+
+    <div class="panel" style="margin-bottom:12px;">
+        <div class="label">QUEUE</div>
+        <div id="queue"></div>
+    </div>
+
+    <canvas id="gameCanvas" width="640" height="640"></canvas>
+
+    <div id="message"></div>
+
+    <div id="controls">
+        Arrow Keys = Queue Movement Commands<br>
+        Backspace = Undo Last Command<br>
+        Reach the glowing white portal without seeing movement during input.
+    </div>
+</div>
+
+<script>
+const canvas = document.getElementById("gameCanvas");
+const ctx = canvas.getContext("2d");
+
+const timerText = document.getElementById("timerText");
+const queueText = document.getElementById("queue");
+const modeText = document.getElementById("modeText");
+const levelText = document.getElementById("levelText");
+const messageText = document.getElementById("message");
+
+const MAX_LEVEL_SIZE = 15;
+const START_SIZE = 8;
+
+let level = 1;
+let gridSize = START_SIZE;
+
+let maze = [];
+let queue = [];
+
+let inputPhase = true;
+let executing = false;
+
+let timer = 30;
+let timerInterval;
+
+let player = {x:0,y:0};
+let executionPlayer = {x:0,y:0};
+
+const symbols = {
+    ArrowUp: "▲",
+    ArrowDown: "▼",
+    ArrowLeft: "◀",
+    ArrowRight: "▶"
+};
+
+function generateMaze(size){
+    maze = [];
+
+    for(let y=0;y<size;y++){
+        maze[y] = [];
+        for(let x=0;x<size;x++){
+
+            let wallChance = 0.22;
+
+            // Keep safe corridor edges slightly easier
+            if(x === 0 || y === 0){
+                wallChance = 0.1;
+            }
+
+            maze[y][x] = Math.random() < wallChance ? 1 : 0;
+        }
+    }
+
+    // Ensure start and exit clear
+    maze[0][0] = 0;
+    maze[size-1][size-1] = 0;
+
+    // Guarantee a simple path
+    let px = 0;
+    let py = 0;
+
+    while(px < size-1){
+        maze[py][px] = 0;
+        px++;
+    }
+
+    while(py < size-1){
+        maze[py][px] = 0;
+        py++;
+    }
+}
+
+function startLevel(){
+    queue = [];
+    inputPhase = true;
+    executing = false;
+
+    player = {x:0,y:0};
+    executionPlayer = {x:0,y:0};
+
+    timer = 30;
+
+    levelText.textContent = level;
+    modeText.textContent = "INPUT PHASE";
+    messageText.textContent = "";
+
+    generateMaze(gridSize);
+    updateQueueDisplay();
+    startTimer();
+    draw();
+}
+
+function startTimer(){
+    clearInterval(timerInterval);
+
+    timerText.textContent = timer;
+
+    timerInterval = setInterval(()=>{
+        timer--;
+        timerText.textContent = timer;
+
+        if(timer <= 0){
+            clearInterval(timerInterval);
+            beginExecution();
+        }
+    },1000);
+}
+
+function updateQueueDisplay(){
+    queueText.textContent = queue.map(q => symbols[q]).join(" ");
+}
+
+function beginExecution(){
+    inputPhase = false;
+    executing = true;
+
+    modeText.textContent = "EXECUTION MODE";
+
+    let index = 0;
+
+    const playback = setInterval(()=>{
+
+        if(index >= queue.length){
+            clearInterval(playback);
+
+            if(
+                executionPlayer.x === gridSize - 1 &&
+                executionPlayer.y === gridSize - 1
+            ){
+                levelComplete();
+            }else{
+                gameOver("INSUFFICIENT DATA: GAME OVER");
+            }
+
+            return;
+        }
+
+        const move = queue[index];
+
+        let nx = executionPlayer.x;
+        let ny = executionPlayer.y;
+
+        if(move === "ArrowUp") ny--;
+        if(move === "ArrowDown") ny++;
+        if(move === "ArrowLeft") nx--;
+        if(move === "ArrowRight") nx++;
+
+        // Boundary crash
+        if(nx < 0 || ny < 0 || nx >= gridSize || ny >= gridSize){
+            clearInterval(playback);
+            draw();
+            gameOver("SYSTEM CRASH: GAME OVER");
+            return;
+        }
+
+        // Wall crash
+        if(maze[ny][nx] === 1){
+            clearInterval(playback);
+            executionPlayer.x = nx;
+            executionPlayer.y = ny;
+            draw();
+            gameOver("SYSTEM CRASH: GAME OVER");
+            return;
+        }
+
+        executionPlayer.x = nx;
+        executionPlayer.y = ny;
+
+        draw();
+
+        index++;
+
+    },200);
+}
+
+function levelComplete(){
+    messageText.textContent = "ACCESS GRANTED — LEVEL CLEARED";
+    messageText.className = "success";
+
+    setTimeout(()=>{
+        level++;
+
+        if(gridSize < MAX_LEVEL_SIZE){
+            gridSize++;
+        }
+
+        startLevel();
+    },2000);
+}
+
+function gameOver(msg){
+    inputPhase = false;
+    executing = false;
+
+    messageText.textContent = msg;
+    messageText.className = "danger";
+
+    setTimeout(()=>{
+        level = 1;
+        gridSize = START_SIZE;
+        startLevel();
+    },3000);
+}
+
+function draw(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+
+    const tileSize = canvas.width / gridSize;
+
+    // Background glow
+    ctx.fillStyle = "#000";
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+
+    for(let y=0;y<gridSize;y++){
+        for(let x=0;x<gridSize;x++){
+
+            const px = x * tileSize;
+            const py = y * tileSize;
+
+            // Tile border
+            ctx.strokeStyle = "rgba(0,255,136,0.15)";
+            ctx.strokeRect(px, py, tileSize, tileSize);
+
+            if(maze[y][x] === 1){
+
+                ctx.fillStyle = "#00aa55";
+                ctx.shadowColor = "#00ff88";
+                ctx.shadowBlur = 10;
+
+                ctx.fillRect(
+                    px + 4,
+                    py + 4,
+                    tileSize - 8,
+                    tileSize - 8
+                );
+            }
+        }
+    }
+
+    // Exit portal
+    const ex = (gridSize - 1) * tileSize;
+    const ey = (gridSize - 1) * tileSize;
+
+    ctx.beginPath();
+    ctx.fillStyle = "#ffffff";
+    ctx.shadowColor = "#ffffff";
+    ctx.shadowBlur = 20;
+
+    ctx.arc(
+        ex + tileSize/2,
+        ey + tileSize/2,
+        tileSize/4,
+        0,
+        Math.PI * 2
+    );
+    ctx.fill();
+
+    // Player rendering
+    const renderPlayer = executing ? executionPlayer : player;
+
+    ctx.beginPath();
+
+    ctx.fillStyle = "#00ff88";
+    ctx.shadowColor = "#00ff88";
+    ctx.shadowBlur = 20;
+
+    ctx.arc(
+        renderPlayer.x * tileSize + tileSize/2,
+        renderPlayer.y * tileSize + tileSize/2,
+        tileSize/4,
+        0,
+        Math.PI * 2
+    );
+
+    ctx.fill();
+
+    ctx.shadowBlur = 0;
+}
+
+window.addEventListener("keydown",(e)=>{
+
+    if(inputPhase){
+
+        if([
+            "ArrowUp",
+            "ArrowDown",
+            "ArrowLeft",
+            "ArrowRight"
+        ].includes(e.key)){
+
+            queue.push(e.key);
+            updateQueueDisplay();
+            e.preventDefault();
+        }
+
+        if(e.key === "Backspace"){
+            queue.pop();
+            updateQueueDisplay();
+            e.preventDefault();
+        }
+    }
+});
+
+startLevel();
+</script>
+
+</body>
+</html>
