@@ -284,7 +284,10 @@ function startLevel(){
     modeText.textContent = "INPUT PHASE";
     messageText.textContent = "";
 
+    do {
     generateMaze(gridSize);
+} while (!pathExists(0, 0, gridSize-1, gridSize-1));
+
     // top row
 grid[0][Math.floor(Math.random() * gridSize)] = 1;
 
