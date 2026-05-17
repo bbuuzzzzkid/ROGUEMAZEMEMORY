@@ -237,6 +237,31 @@ function generateMaze(size){
             }
 
             maze[y][x] = Math.random() < wallChance ? 1 : 0;
+            for(let y = 0; y < gridSize; y++){
+    for(let x = 0; x < gridSize; x++){
+
+        if((x === 0 && y === 0) ||
+           (x === gridSize-1 && y === gridSize-1)){
+            continue;
+        }
+
+        if(Math.random() < 0.3){
+            grid[y][x] = 1;
+        }
+    }
+}
+for(let i = 1; i < gridSize-1; i++){
+
+    // top edge
+    if(Math.random() < 0.7){
+        grid[0][i] = 1;
+    }
+
+    // right edge
+    if(Math.random() < 0.7){
+        grid[i][gridSize-1] = 1;
+    }
+}
         }
     }
 
