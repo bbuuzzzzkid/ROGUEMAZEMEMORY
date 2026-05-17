@@ -227,9 +227,10 @@ const symbols = {
 function generateMaze(size){
     grid = [];
 
-    for(let y=0;y<size;y++){
+    for(let y = 0; y < size; y++){
         grid[y] = [];
-        for(let x=0;x<size;x++){
+
+        for(let x = 0; x < size; x++){
 
             let wallChance = 0.22;
 
@@ -239,29 +240,29 @@ function generateMaze(size){
             }
 
             grid[y][x] = Math.random() < wallChance ? 1 : 0;
-            for(let y = 0; y < gridSize; y++){
-    for(let x = 0; x < gridSize; x++){
-
-        if((x === 0 && y === 0) ||
-           (x === gridSize-1 && y === gridSize-1)){
-            continue;
-        }
-
-        if(Math.random() < 0.3){
-            grid[y][x] = 1;
         }
     }
-}
-let blockTop = Math.floor(Math.random() * (gridSize - 2)) + 1;
-let blockRight = Math.floor(Math.random() * (gridSize - 2)) + 1;
 
-// guaranteed blocker on top edge
-grid[0][blockTop] = 1;
+    // EXTRA RANDOM WALL PASS (cleaned version of your second loop)
+    for(let y = 0; y < size; y++){
+        for(let x = 0; x < size; x++){
 
-// guaranteed blocker on right edge
-grid[blockRight][gridSize - 1] = 1;
+            if((x === 0 && y === 0) ||
+               (x === size-1 && y === size-1)){
+                continue;
+            }
+
+            if(Math.random() < 0.3){
+                grid[y][x] = 1;
+            }
         }
     }
+
+    let blockTop = Math.floor(Math.random() * (size - 2)) + 1;
+    let blockRight = Math.floor(Math.random() * (size - 2)) + 1;
+
+    grid[0][blockTop] = 1;
+    grid[blockRight][size - 1] = 1;
 
     // Ensure start and exit clear
     grid[0][0] = 0;
@@ -281,7 +282,6 @@ grid[blockRight][gridSize - 1] = 1;
         py++;
     }
 }
-
 function startLevel(){
     queue = [];
     inputPhase = true;
@@ -296,7 +296,7 @@ function startLevel(){
     modeText.textContent = "INPUT PHASE";
     messageText.textContent = "";
 
-    generateMaze();
+    generateMaze(gridSize);
     updateQueueDisplay();
     startTimer();
     draw();
