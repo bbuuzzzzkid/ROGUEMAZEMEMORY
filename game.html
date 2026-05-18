@@ -302,7 +302,7 @@ function beginExecution(){
 
     let index = 0;
 
-    const playback = setInterval(()=>{
+    let playback = setInterval(()=>{
 
         if(index >= queue.length){
             clearInterval(playback);
@@ -382,7 +382,7 @@ function gameOver(msg){
     executing = false;
 
     clearInterval(timerInterval);
-
+    clearInterval(playback);
     messageText.textContent = msg;
     messageText.className = "danger";
 
