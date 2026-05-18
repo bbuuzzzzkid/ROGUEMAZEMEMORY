@@ -299,10 +299,10 @@ function beginExecution(){
     executing = true;
 
     modeText.textContent = "EXECUTION MODE";
-
+    let playback;
     let index = 0;
 
-    let playback = setInterval(()=>{
+    playback = setInterval(()=>{
 
         if(index >= queue.length){
             clearInterval(playback);
