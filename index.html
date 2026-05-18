@@ -509,14 +509,14 @@ function pulseBorder() {
 }
 
 function redPulse() {
-    canvas.style.transition = "box-shadow 0.4s ease";
+    canvas.style.transition = "box-shadow 1s ease";
 
     // big crash flash
     canvas.style.boxShadow = "0 0 250px #ff0000";
 
     // return to normal glow
     setTimeout(() => {
-        canvas.style.transition = "box-shadow 0.6s ease";
+        canvas.style.transition = "box-shadow 1s ease";
         canvas.style.boxShadow = "0 0 20px rgba(0,255,136,0.4)";
     }, 300);
 }
