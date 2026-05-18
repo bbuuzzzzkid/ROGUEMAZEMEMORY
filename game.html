@@ -389,10 +389,8 @@ function gameOver(msg){
     redPulse(); 
 
     setTimeout(() => {
-        level = 1;
-        gridSize = START_SIZE;
-        startLevel();
-    }, 900);
+    window.location.href = "index.html";
+}, 900);
 }
 
 function draw(){
