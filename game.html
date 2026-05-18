@@ -269,7 +269,6 @@ function startLevel(){
     levelText.textContent = level;
     modeText.textContent = "INPUT PHASE";
     messageText.textContent = "";
-
     generateMaze();
     updateQueueDisplay();
     startTimer();
@@ -314,7 +313,11 @@ function beginExecution(){
             ){
                 levelComplete();
             }else{
-                gameOver("INSUFFICIENT DATA: GAME OVER");
+
+                clearInterval(playback);
+                gameOver("SYSTEM CRASH");
+                return;
+
             }
 
             return;
@@ -375,10 +378,9 @@ function levelComplete(){
 }
 
 function gameOver(msg){
-    redPulse();
     inputPhase = false;
     executing = false;
-
+    redPulse();
     messageText.textContent = msg;
     messageText.className = "danger";
 
@@ -538,7 +540,6 @@ document.getElementById("goButton").addEventListener("click", () => {
         beginExecution();
     }
 });
-<button onclick="redPulse()">TEST RED</button>
 startLevel();
 </script>
 
