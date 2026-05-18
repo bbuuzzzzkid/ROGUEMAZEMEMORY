@@ -204,6 +204,7 @@
 </div>
 <script src="pathfinder.js"></script>
 <script>
+let playback;
 let mode = localStorage.getItem("mode") || "medium";
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
@@ -299,7 +300,6 @@ function beginExecution(){
     executing = true;
 
     modeText.textContent = "EXECUTION MODE";
-    let playback;
     let index = 0;
 
     playback = setInterval(()=>{
