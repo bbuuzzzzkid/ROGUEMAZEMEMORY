@@ -503,19 +503,20 @@ function pulseBorder() {
         if (i >= colors.length) {
             clearInterval(interval);
             canvas.style.borderColor = "#00ff88";
-            canvas.style.boxShadow = "0 0 100px rgba(0,255,136,0.4)";
+            canvas.style.boxShadow = "0 0 50px rgba(0,255,136,0.4)";
         }
     }, 120);
 }
 
 function redPulse() {
-    canvas.style.transition = "box-shadow 0.15s ease";
+    canvas.style.transition = "box-shadow 0.4s ease";
 
     // big crash flash
-    canvas.style.boxShadow = "0 0 200px #ff0000";
+    canvas.style.boxShadow = "0 0 250px #ff0000";
 
     // return to normal glow
     setTimeout(() => {
+        canvas.style.transition = "box-shadow 0.6s ease";
         canvas.style.boxShadow = "0 0 20px rgba(0,255,136,0.4)";
     }, 300);
 }
