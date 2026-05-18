@@ -364,6 +364,7 @@ function levelComplete(){
 }
 
 function gameOver(msg){
+    redPulse();
     inputPhase = false;
     executing = false;
 
@@ -505,6 +506,18 @@ function pulseBorder() {
             canvas.style.boxShadow = "0 0 100px rgba(0,255,136,0.4)";
         }
     }, 120);
+}
+
+function redPulse() {
+    canvas.style.transition = "box-shadow 0.15s ease";
+
+    // big crash flash
+    canvas.style.boxShadow = "0 0 200px #ff0000";
+
+    // return to normal glow
+    setTimeout(() => {
+        canvas.style.boxShadow = "0 0 20px rgba(0,255,136,0.4)";
+    }, 300);
 }
 
 document.getElementById("goButton").addEventListener("click", () => {
