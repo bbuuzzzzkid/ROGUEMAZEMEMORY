@@ -378,20 +378,29 @@ function levelComplete(){
 }
 
 function gameOver(msg){
-    inputPhase = false;
-    executing = false;
+    alert("GAME OVER TRIGGERED");
 
     clearInterval(timerInterval);
     clearInterval(playback);
-    messageText.textContent = msg;
-    messageText.className = "danger";
 
-    redPulse(); 
-
-    setTimeout(() => {
-    window.location.href = "index.html";
-}, 900);
+    window.location.href = "./index.html";
 }
+
+// function gameOver(msg){
+//     inputPhase = false;
+//     executing = false;
+
+//     clearInterval(timerInterval);
+//     clearInterval(playback);
+//     messageText.textContent = msg;
+//     messageText.className = "danger";
+
+//     redPulse(); 
+
+//     setTimeout(() => {
+//     window.location.href = "index.html";
+// }, 900);
+// }
 
 function draw(){
     if (!grid || !grid.length) return;
