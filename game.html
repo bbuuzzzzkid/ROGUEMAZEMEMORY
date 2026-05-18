@@ -380,15 +380,19 @@ function levelComplete(){
 function gameOver(msg){
     inputPhase = false;
     executing = false;
-    redPulse();
+
+    clearInterval(timerInterval);
+
     messageText.textContent = msg;
     messageText.className = "danger";
 
-    setTimeout(()=>{
+    redPulse(); 
+
+    setTimeout(() => {
         level = 1;
         gridSize = START_SIZE;
         startLevel();
-    },3000);
+    }, 900);
 }
 
 function draw(){
