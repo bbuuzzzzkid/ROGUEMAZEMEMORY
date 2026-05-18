@@ -204,7 +204,7 @@
 </div>
 <script src="pathfinder.js"></script>
 <script>
-let playback;
+let playback = null; 
 let mode = localStorage.getItem("mode") || "medium";
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
@@ -382,9 +382,10 @@ function gameOver(msg){
     executing = false;
 
     clearInterval(timerInterval);
-    if (playback){
-        clearInterval(playback);
-    }
+    if (playback) {
+    clearInterval(playback);
+    playback = null;
+}
     messageText.textContent = msg;
     messageText.className = "danger";
 
