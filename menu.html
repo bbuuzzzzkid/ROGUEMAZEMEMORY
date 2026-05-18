@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>PATHFINDER MENU</title>
+
+<style>
+body {
+    margin: 0;
+    background: #000;
+    font-family: "Courier New", monospace;
+    color: #00ff88;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+}
+
+h1 {
+    font-size: 48px;
+    text-shadow: 0 0 20px #00ff88;
+    letter-spacing: 5px;
+}
+
+p {
+    opacity: 0.7;
+    margin-bottom: 20px;
+}
+
+button {
+    margin: 10px;
+    padding: 12px 24px;
+    background: transparent;
+    color: #00ff88;
+    border: 2px solid #00ff88;
+    cursor: pointer;
+    font-size: 18px;
+    transition: 0.2s;
+    box-shadow: 0 0 15px rgba(0,255,136,0.3);
+}
+
+button:hover {
+    background: #00ff88;
+    color: #000;
+    transform: scale(1.05);
+}
+</style>
+</head>
+
+<body>
+
+<h1>P@THF!ND3R</h1>
+<p>SELECT DIFFICULTY</p>
+
+<button onclick="start('easy')">EASY</button>
+<button onclick="start('medium')">MEDIUM</button>
+<button onclick="start('hard')">HARD</button>
+
+<script>
+function start(mode){
+    localStorage.setItem("mode", mode);
+    window.location.href = "index.html";
+}
+</script>
+
+</body>
+</html>

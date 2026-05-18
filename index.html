@@ -204,6 +204,7 @@
 </div>
 <script src="pathfinder.js"></script>
 <script>
+let mode = localStorage.getItem("mode") || "medium";
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 
@@ -240,10 +241,20 @@ const symbols = {
     ArrowRight: "▶"
 };
 
+if (mode === "easy") {
+    gridSize = 4;
+    timer = 40;
+}
 
-    // EXTRA RANDOM WALL PASS (cleaned version of second loop)
-    
+if (mode === "medium") {
+    gridSize = 8;
+    timer = 30;
+}
 
+if (mode === "hard") {
+    gridSize = 12;
+    timer = 20;
+}
 
 function startLevel(){
     queue = [];
