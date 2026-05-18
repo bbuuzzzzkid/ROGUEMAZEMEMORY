@@ -351,13 +351,14 @@ function levelComplete(){
     messageText.textContent = "ACCESS GRANTED — LEVEL CLEARED";
     messageText.className = "success";
 
+    pulseBorder();
+
     setTimeout(()=>{
         level++;
-
         if(gridSize < MAX_LEVEL_SIZE){
             gridSize++;
         }
-    pulseBorder();
+        
         startLevel();
     },2000);
 }
