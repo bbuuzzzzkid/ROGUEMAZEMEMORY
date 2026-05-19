@@ -388,6 +388,9 @@ function gameOver(msg){
     clearInterval(playback);
     playback = null;
 }
+
+ saveHighScore(mode, level);
+
     messageText.textContent = msg;
     messageText.className = "danger";
 

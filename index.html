@@ -61,14 +61,17 @@ function start(mode){
     localStorage.setItem("mode", mode);
     window.location.href = "game.html";
 }
-document.getElementById("easyBtn").textContent =
-    `EASY — Highscore: ${localStorage.getItem("highscore_easy") || 0}`;
 
-document.getElementById("mediumBtn").textContent =
-    `MEDIUM — Highscore: ${localStorage.getItem("highscore_medium") || 0}`;
+function updateHighScores() {
+    document.getElementById("easyBtn").textContent =
+        `EASY — Highest level: ${localStorage.getItem("highscore_easy") || 0}`;
+    document.getElementById("mediumBtn").textContent =
+        `MEDIUM — Highest level: ${localStorage.getItem("highscore_medium") || 0}`;
+    document.getElementById("hardBtn").textContent =
+    `HARD — Highest level: ${localStorage.getItem("highscore_hard") || 0}`;
+}
+updateHighScores();
 
-document.getElementById("hardBtn").textContent =
-    `HARD — Highscore: ${localStorage.getItem("highscore_hard") || 0}`;
 </script>
 
 </body>
