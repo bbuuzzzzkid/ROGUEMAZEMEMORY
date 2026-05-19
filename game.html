@@ -270,7 +270,9 @@ function startLevel(){
     levelText.textContent = level;
     modeText.textContent = "INPUT PHASE";
     messageText.textContent = "";
+    do {
     generateMaze();
+} while (!isSolvable(grid, gridSize));
     updateQueueDisplay();
     startTimer();
     draw();

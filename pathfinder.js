@@ -74,3 +74,38 @@ if (gridSize > 1) {
     grid[gridSize - 2][gridSize - 1] = 0;
 }
     }
+function isSolvable(grid, size) {
+    let visited = Array.from({ length: size }, () =>
+        Array(size).fill(false)
+    );
+
+    let queue = [{ x: 0, y: 0 }];
+    visited[0][0] = true;
+
+    const dirs = [
+        [1,0], [-1,0], [0,1], [0,-1]
+    ];
+
+    while (queue.length) {
+        let { x, y } = queue.shift();
+
+        if (x === size - 1 && y === size - 1) return true;
+
+        for (let [dx, dy] of dirs) {
+            let nx = x + dx;
+            let ny = y + dy;
+
+            if (
+                nx >= 0 && ny >= 0 &&
+                nx < size && ny < size &&
+                !visited[ny][nx] &&
+                grid[ny][nx] === 0
+            ) {
+                visited[ny][nx] = true;
+                queue.push({ x: nx, y: ny });
+            }
+        }
+    }
+
+    return false;
+}
