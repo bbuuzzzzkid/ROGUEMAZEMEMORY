@@ -52,15 +52,23 @@ button:hover {
 <h1>C0D3P@TH3R$</h1>
 <p>SELECT DIFFICULTY</p>
 
-<button onclick="start('easy')">EASY</button>
-<button onclick="start('medium')">MEDIUM</button>
-<button onclick="start('hard')">HARD</button>
+<button id="easyBtn" onclick="start('easy')">EASY</button>
+<button id="mediumBtn" onclick="start('medium')">MEDIUM</button>
+<button id="hardBtn" onclick="start('hard')">HARD</button>
 
 <script>
 function start(mode){
     localStorage.setItem("mode", mode);
     window.location.href = "game.html";
 }
+document.getElementById("easyBtn").textContent =
+    `EASY — Highscore: ${localStorage.getItem("highscore_easy") || 0}`;
+
+document.getElementById("mediumBtn").textContent =
+    `MEDIUM — Highscore: ${localStorage.getItem("highscore_medium") || 0}`;
+
+document.getElementById("hardBtn").textContent =
+    `HARD — Highscore: ${localStorage.getItem("highscore_hard") || 0}`;
 </script>
 
 </body>
